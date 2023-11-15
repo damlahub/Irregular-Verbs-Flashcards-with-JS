@@ -3,9 +3,10 @@ let _completeIncompleteWords = JSON.parse(localStorage.getItem('allNoWords'));
 
 
 _completeIncomplete.addEventListener("click", () => {
-    console.log("hello world");
     MAIN_CONTENT.innerHTML = "";
-
+    if (!_completeIncompleteWords) {
+        _completeIncompleteWords = []; 
+    }
     let completeSection=document.createElement("section");
     completeSection.classList.add("complete-section");
 
@@ -23,7 +24,7 @@ _completeIncomplete.addEventListener("click", () => {
         <th>Türkçe Anlamı</th>
     `;
     thead.appendChild(headerRow);
-
+    if(_completeIncompleteWords.length > 0){
     for (let j = 0; j < _completeIncompleteWords.length; j++) {
         const word = _completeIncompleteWords[j];
 
@@ -47,6 +48,7 @@ _completeIncomplete.addEventListener("click", () => {
     table.appendChild(tbody);
     completeSection.appendChild(table);
     MAIN_CONTENT.appendChild(completeSection);
+}
 
     //  Complete Counter
  let completePointContent = document.createElement("section"); 

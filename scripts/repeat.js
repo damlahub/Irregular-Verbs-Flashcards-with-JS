@@ -5,8 +5,10 @@ let _completeRepeatWords = JSON.parse(localStorage.getItem('allMaybeWords'));
 _completeRepeat.addEventListener("click", () => {
     console.log("hello world");
     MAIN_CONTENT.innerHTML = "";
-
-    let completeSection=document.createElement("section");
+    if (!_completeRepeatWords) {
+        _completeRepeatWords = []; 
+    }
+    let completeSection = document.createElement("section");
     completeSection.classList.add("complete-section");
 
     let table = document.createElement("table");
@@ -23,7 +25,7 @@ _completeRepeat.addEventListener("click", () => {
         <th>Türkçe Anlamı</th>
     `;
     thead.appendChild(headerRow);
-
+    if(_completeRepeatWords.length > 0){
     for (let j = 0; j < _completeRepeatWords.length; j++) {
         const word = _completeRepeatWords[j];
 
@@ -47,14 +49,15 @@ _completeRepeat.addEventListener("click", () => {
     table.appendChild(tbody);
     completeSection.appendChild(table);
     MAIN_CONTENT.appendChild(completeSection);
+}
 
     //  Complete Counter
- let completePointContent = document.createElement("section"); 
- completePointContent.classList.add("complete-point");
+    let completePointContent = document.createElement("section");
+    completePointContent.classList.add("complete-point");
 
- let completePoint = document.createElement("h1"); 
- completePoint.innerHTML =  _completeRepeatWords.length +  " <br> KELİME"; 
+    let completePoint = document.createElement("h1");
+    completePoint.innerHTML = _completeRepeatWords.length + " <br> KELİME";
 
- completePointContent.appendChild(completePoint); 
- MAIN_CONTENT.appendChild(completePointContent);
+    completePointContent.appendChild(completePoint);
+    MAIN_CONTENT.appendChild(completePointContent);
 });

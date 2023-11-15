@@ -5,6 +5,7 @@ clearLocalStorage.addEventListener("click",()=>{
     if(confirmStatus){
     localStorage.clear();
         alert("Tüm veriler silindi!");
+        displayData();
     }else{
         alert("Tüm veriler silinmedi!");        
     }

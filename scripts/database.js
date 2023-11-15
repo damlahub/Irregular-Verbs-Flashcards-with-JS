@@ -1,4 +1,119 @@
-let sheet;
+// let sheet;
+
+// function DataInit() {
+//   // Sabit bir XLSX dosyasının yolu
+//   const xlsxFilePath = '../database.xlsx';
+
+//   // XLSX dosyasını okuma işlemi
+//   const oReq = new XMLHttpRequest();
+//   oReq.open('GET', xlsxFilePath, true);
+//   oReq.responseType = 'arraybuffer';
+
+//   oReq.onload = function (e) {
+//     const arraybuffer = oReq.response;
+
+//     // Veriyi XLSX olarak işleme
+//     const data = new Uint8Array(arraybuffer);
+//     const workbook = XLSX.read(data, { type: 'array' });
+
+//     // İlk sayfadaki (sheet) veriyi alma
+//     const sheetName = workbook.SheetNames[0];
+//     sheet = workbook.Sheets[sheetName];
+//     DataShow();
+//   };
+//   oReq.send();
+// }
+// DataInit();
+
+// // function displayData() {
+// //   JSON.parse(localStorage.getItem("allYesWords")) || [];
+// //   JSON.parse(localStorage.getItem("allMaybeWords")) || [];
+// //   JSON.parse(localStorage.getItem("allNoWords")) || [];
+// // }
+
+// document.addEventListener("click", (event) => {
+//   let btnID = event.target.id;
+//   const slide = event.target.closest('.words-content');
+
+//   if (slide) {
+//     const index = slide.classList[1].replace('slideID', '');
+//     const sheetData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+//     let [v1, v2, v3, turkishMeaning] = sheetData[index];
+//     let newData = { v1, v2, v3, turkishMeaning };
+
+//     if (btnID === "yes") {
+//       console.log("yes");
+//       let existingYesData = JSON.parse(localStorage.getItem("allYesWords")) || [];
+      
+//       let isDuplicate = existingYesData.some(item =>  // 'some' ile dizideki her ögeyi kontrol ediyor.
+//         item.v1 === newData.v1 && 
+//         item.v2 === newData.v2 && 
+//         item.v3 === newData.v3 && 
+//         item.turkishMeaning === newData.turkishMeaning
+//     );
+
+//     if (!isDuplicate) { //Yeni kelime dizide yok ise verimiz eklensin.
+//       alert("Biliyorum: \n"+JSON.stringify(newData.v1) + " kelimesi eklendi.");  
+//         existingYesData.push(newData);
+//         localStorage.setItem("allYesWords", JSON.stringify(existingYesData));
+//         displayUpdate();
+//     } else { //Yeni kelime dizide var ise uyarı versin.
+//         alert("Bu veri zaten LocalStorage'da mevcut.");
+//     }
+    
+//     }
+//     /* ------------------------------------------------------ */
+//     if (btnID === "maybe") {
+//       console.log("maybe");
+//       let existingMaybeData = JSON.parse(localStorage.getItem("allMaybeWords")) || [];
+//       let newData = { v1, v2, v3, turkishMeaning };
+
+//       let isDuplicate = existingMaybeData.some(item => 
+//       item.v1 === newData.v1 && 
+//       item.v2 === newData.v2 && 
+//       item.v3 === newData.v3 && 
+//       item.turkishMeaning === newData.turkishMeaning
+//   );
+
+//   if (!isDuplicate) { 
+//     alert("Tekrarlamam Lazım: \n"+JSON.stringify(newData.v1) + " kelimesi eklendi.");  
+//       existingMaybeData.push(newData);
+//       localStorage.setItem("allMaybeWords", JSON.stringify(existingMaybeData));
+//         displayUpdate();
+//     } else { 
+//       alert("Bu veri zaten LocalStorage'da mevcut.");
+//   }
+//     }
+//     /* ------------------------------------------------------ */
+
+//     if (btnID === "no") {
+//       console.log("no");
+//       let existingNoData = JSON.parse(localStorage.getItem("allNoWords")) || [];
+//       let newData = { v1, v2, v3, turkishMeaning };
+
+//       let isDuplicate = existingNoData.some(item => 
+//         item.v1 === newData.v1 && 
+//         item.v2 === newData.v2 && 
+//         item.v3 === newData.v3 && 
+//         item.turkishMeaning === newData.turkishMeaning
+//     );
+  
+//     if (!isDuplicate) { 
+//       alert("Hiç Bilmiyorum: \n"+JSON.stringify(newData.v1) + " kelimesi eklendi.");  
+//         existingNoData.push(newData);
+//         localStorage.setItem("allNoWords", JSON.stringify(existingNoData));
+//         displayUpdate();
+//       } else { 
+//         alert("Bu veri zaten LocalStorage'da mevcut.");
+//     }
+//     }
+//   }
+// });
+
+// // localStorage.clear();
+
+// let sheet;
+document.addEventListener('DOMContentLoaded', function () {
 
 function DataInit() {
   // Sabit bir XLSX dosyasının yolu
@@ -19,58 +134,50 @@ function DataInit() {
     // İlk sayfadaki (sheet) veriyi alma
     const sheetName = workbook.SheetNames[0];
     sheet = workbook.Sheets[sheetName];
-
     DataShow();
   };
   oReq.send();
 }
-DataInit();
+function handleButtonClick(storageKey, message) {
+  const existingData = JSON.parse(localStorage.getItem(storageKey)) || [];
+  const newData = { v1, v2, v3, turkishMeaning };
 
+  const isDuplicate = existingData.some(item =>  // 'some' ile dizideki her ögeyi kontrol ediyor.
+    item.v1 === newData.v1 &&
+    item.v2 === newData.v2 &&
+    item.v3 === newData.v3 &&
+    item.turkishMeaning === newData.turkishMeaning
+  );
 
-document.addEventListener("click", (event) => {
-  let btnID = event.target.id;
+  if (!isDuplicate) {
+    alert(message + JSON.stringify(newData.v1) + " kelimesi eklendi.");
+    existingData.push(newData);
+    localStorage.setItem(storageKey, JSON.stringify(existingData));
+    displayUpdate();
+  } else {
+    alert("Bu veri zaten LocalStorage'da mevcut.");
+  }
+}
+
+document.addEventListener('click', function (event) {
   const slide = event.target.closest('.words-content');
 
   if (slide) {
     const index = slide.classList[1].replace('slideID', '');
     const sheetData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+    [v1, v2, v3, turkishMeaning] = sheetData[index]; // Assign values to variables
 
-    if (btnID === "yes") {
-      console.log("yes");
-      const [v1, v2, v3, turkishMeaning] = sheetData[index];
-
-      const existingYesData = JSON.parse(localStorage.getItem("allYesWords")) || [];
-
-      const yesNewData = { v1, v2, v3, turkishMeaning };
-      existingYesData.push(yesNewData);
-      localStorage.setItem("allYesWords", JSON.stringify(existingYesData));
-    }
-    /* ------------------------------------------------------ */
-    if (btnID === "maybe") {
-      console.log("maybe");
-      const [v1, v2, v3, turkishMeaning] = sheetData[index];
-
-      const existingMaybeData = JSON.parse(localStorage.getItem("allMaybeWords")) || [];
-
-      const yesNewData = { v1, v2, v3, turkishMeaning };
-      existingMaybeData.push(yesNewData);
-
-      localStorage.setItem("allMaybeWords", JSON.stringify(existingMaybeData));
-    }
-    /* ------------------------------------------------------ */
-
-    if (btnID === "no") {
-      console.log("no");
-      const [v1, v2, v3, turkishMeaning] = sheetData[index];
-
-      const existingNoData = JSON.parse(localStorage.getItem("allNoWords")) || [];
-
-      const noNewData = { v1, v2, v3, turkishMeaning };
-      existingNoData.push(noNewData);
-
-      localStorage.setItem("allNoWords", JSON.stringify(existingNoData));
+    if (event.target.id === 'yes') {
+      handleButtonClick('allYesWords', 'Biliyorum: \n');
+    } else if (event.target.id === 'maybe') {
+      handleButtonClick('allMaybeWords', 'Tekrarlamam Lazım: \n');
+    } else if (event.target.id === 'no') {
+      handleButtonClick('allNoWords', 'Hiç Bilmiyorum: \n');
     }
   }
+});
+
+DataInit();
 });
 
 // localStorage.clear();

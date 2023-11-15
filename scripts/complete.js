@@ -5,7 +5,9 @@ let _completeWords = JSON.parse(localStorage.getItem('allYesWords'));
 
 _complete.addEventListener("click", () => {
     MAIN_CONTENT.innerHTML = "";
-
+    if (!_completeWords) {
+        _completeWords = []; 
+    }
     let completeSection=document.createElement("section");
     completeSection.classList.add("complete-section");
 
@@ -23,7 +25,7 @@ _complete.addEventListener("click", () => {
         <th>Türkçe Anlamı</th>
     `;
     thead.appendChild(headerRow);
-
+    if(_completeWords.length > 0){
     for (let j = 0; j < _completeWords.length; j++) {
         const word = _completeWords[j];
 
@@ -47,7 +49,7 @@ _complete.addEventListener("click", () => {
     table.appendChild(tbody);
     completeSection.appendChild(table);
     MAIN_CONTENT.appendChild(completeSection);
-
+}
     //  Complete Counter
  let completePointContent = document.createElement("section"); 
  completePointContent.classList.add("complete-point");
