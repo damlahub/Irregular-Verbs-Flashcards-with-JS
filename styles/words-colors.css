@@ -1,0 +1,40 @@
+
+.words-content:nth-child(1n) {
+    background-color: #ffe3c5;
+}
+
+.words-content:nth-child(2n) {
+    background-color: #e7d1e7;
+}
+
+.words-content:nth-child(3n) {
+    background-color: #ffadd4;
+}
+
+.words-content:nth-child(4n) {
+    background-color: #cb96ff;
+}
+
+.words-content:nth-child(5n) {
+    background-color: #00a4ff;
+}
+
+.words-content:nth-child(6n) {
+    background-color: #aeffcf;
+}
+
+.words-content:nth-child(7n) {
+    background-color: #ee5d7d;
+}
+
+.words-content:nth-child(8n) {
+    background-color: #b6df9c;
+}
+
+.words-content:nth-child(9n) {
+    background-color: #ff90a4;
+}
+
+.words-content:nth-child(10n) {
+    background-color: #9695e1;
+}

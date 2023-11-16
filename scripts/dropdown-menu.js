@@ -5,6 +5,6 @@
     if(!asideContent.classList.contains("aside-active")){
         asideBtn.style.left="-15px";
     }else{
-        asideBtn.style.left="65px";
+        asideBtn.style.left="55px";
     }
 })

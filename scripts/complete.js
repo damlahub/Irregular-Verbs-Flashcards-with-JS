@@ -2,7 +2,7 @@ const updateIntervalTime = 1000;
 const updateInterval = () => {
   const updateWordList= (buttonId, wordArrayKey)=>{  
     const buttonElement = document.querySelector(buttonId);
-    const wordArray = JSON.parse(localStorage.getItem(wordArrayKey));
+    let wordArray = JSON.parse(localStorage.getItem(wordArrayKey));
 
     buttonElement.addEventListener('click', () => {
       MAIN_CONTENT.innerHTML = '';
@@ -55,14 +55,28 @@ const updateInterval = () => {
       }
 
       // Complete Counter
-      const completePointContent = document.createElement('section');
-      completePointContent.classList.add('complete-point');
+      if(wordArray.length==0) {
+        MAIN_CONTENT.style.height = '100vh';
+        MAIN_CONTENT.style.justifyContent = 'center';
+        MAIN_CONTENT.style.alignItems  = 'center';
+        let counterWarning = document.createElement("h1");
+        counterWarning.style.opacity=".5"
+        counterWarning.innerHTML = 'Kayıtlı kelime bulunmamaktadır.';
+        MAIN_CONTENT.appendChild(counterWarning);
+      }else{
+        MAIN_CONTENT.style.height = '';
+        MAIN_CONTENT.style.justifyContent = '';
+        MAIN_CONTENT.style.alignItems  = '';
+        const completePointContent = document.createElement('section');
+        completePointContent.classList.add('complete-point');
+  
+        let completePoint = document.createElement('h1');
+        completePoint.innerHTML = wordArray.length + ' <br> KELİME';
+  
+        completePointContent.appendChild(completePoint);
+        MAIN_CONTENT.appendChild(completePointContent);
+      }
 
-      const completePoint = document.createElement('h1');
-      completePoint.innerHTML = wordArray.length + ' <br> KELİME';
-
-      completePointContent.appendChild(completePoint);
-      MAIN_CONTENT.appendChild(completePointContent);
     });
   }
 

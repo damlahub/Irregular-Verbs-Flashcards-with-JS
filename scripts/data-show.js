@@ -35,7 +35,7 @@ function DataShow(sheet) {
                   <th><h1>V1</h1></th>
                   <th><h1>V2</h1></th>
                   <th><h1>V3</h1></th>
-                  <th>TRANSLATION</th>
+                  <th>Türkçe</th>
               </tr>
           </thead>
           <tbody>
