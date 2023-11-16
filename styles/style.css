@@ -65,13 +65,15 @@ aside nav span svg {
 }
 
 .words-container {
-    width: 95%;
+    width: 90%;
     display: flex;
-    justify-content: center;
+    justify-content: end;
     flex-wrap: wrap;
 }
 
 .words-content {
+    width: 30%;
+    height: 200px;
     border-radius: 35px;
     margin: 5px;
     display: flex;
