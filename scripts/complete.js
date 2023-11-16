@@ -1,66 +1,75 @@
-function updateContent(){
-let _complete = document.querySelector("#complete");
-let _completeWords = JSON.parse(localStorage.getItem('allYesWords'));
+const updateIntervalTime = 1000;
+const updateInterval = () => {
+  const updateWordList= (buttonId, wordArrayKey)=>{  
+    const buttonElement = document.querySelector(buttonId);
+    const wordArray = JSON.parse(localStorage.getItem(wordArrayKey));
 
+    buttonElement.addEventListener('click', () => {
+      MAIN_CONTENT.innerHTML = '';
 
-_complete.addEventListener("click", () => {
-    MAIN_CONTENT.innerHTML = "";
-    if (!_completeWords) {
-        _completeWords = []; 
-    }
-    let completeSection=document.createElement("section");
-    completeSection.classList.add("complete-section");
+      if (!wordArray) {
+        wordArray = [];
+      }
 
-    let table = document.createElement("table");
-    table.classList.add("complete-table");
+      const completeSection = document.createElement('section');
+      completeSection.classList.add('complete-section');
 
-    let thead = document.createElement("thead");
-    let tbody = document.createElement("tbody");
+      const table = document.createElement('table');
+      table.classList.add('complete-table');
 
-    let headerRow = document.createElement("tr");
-    headerRow.innerHTML = `
+      const thead = document.createElement('thead');
+      const tbody = document.createElement('tbody');
+
+      const headerRow = document.createElement('tr');
+      headerRow.innerHTML = `
         <th>V1</th>
         <th>V2</th>
         <th>V3</th>
         <th>Türkçe Anlamı</th>
-    `;
-    thead.appendChild(headerRow);
-    if(_completeWords.length > 0){
-    for (let j = 0; j < _completeWords.length; j++) {
-        const word = _completeWords[j];
+      `;
+      thead.appendChild(headerRow);
 
-        let dataRow = document.createElement("tr");
+      if (wordArray.length > 0) {
+        for (let j = 0; j < wordArray.length; j++) {
+          const word = wordArray[j];
 
-        dataRow.innerHTML = `
+          const dataRow = document.createElement('tr');
+          dataRow.innerHTML = `
             <td>${word.v1}</td>
             <td>${word.v2}</td>
             <td>${word.v3}</td>
             <td>${word.turkishMeaning}</td>
-        `;
+          `;
 
-        if (j % 2 === 0) {
-            dataRow.style.backgroundColor = "#f2f2f2"; // Gri rengi
+          if (j % 2 === 0) {
+            dataRow.style.backgroundColor = '#f2f2f2'; // Gri rengi
+          }
+
+          tbody.appendChild(dataRow);
         }
 
-        tbody.appendChild(dataRow);
-    }
+        table.appendChild(thead);
+        table.appendChild(tbody);
+        completeSection.appendChild(table);
+        MAIN_CONTENT.appendChild(completeSection);
+      }
 
-    table.appendChild(thead);
-    table.appendChild(tbody);
-    completeSection.appendChild(table);
-    MAIN_CONTENT.appendChild(completeSection);
+      // Complete Counter
+      const completePointContent = document.createElement('section');
+      completePointContent.classList.add('complete-point');
+
+      const completePoint = document.createElement('h1');
+      completePoint.innerHTML = wordArray.length + ' <br> KELİME';
+
+      completePointContent.appendChild(completePoint);
+      MAIN_CONTENT.appendChild(completePointContent);
+    });
+  }
+
+  updateWordList('#complete', 'allYesWords');
+  updateWordList('#repeat', 'allMaybeWords');
+  updateWordList('#incomplete', 'allNoWords');
 }
-    //  Complete Counter
- let completePointContent = document.createElement("section"); 
- completePointContent.classList.add("complete-point");
 
- let completePoint = document.createElement("h1"); 
- completePoint.innerHTML =  _completeWords.length +  " <br> KELİME"; 
 
- completePointContent.appendChild(completePoint); 
- MAIN_CONTENT.appendChild(completePointContent);
-});
-}
-updateContent();
-const updateInterval = 0; 
-setInterval(updateContent, updateInterval);
+setInterval(updateInterval, updateInterval);

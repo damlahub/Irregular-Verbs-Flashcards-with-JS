@@ -1,4 +1,23 @@
-function DataShow() {
+function fetchData() {
+    let sheet;
+    const xlsxFilePath = '../database.xlsx';
+  
+    fetch(xlsxFilePath)
+      .then(response => response.arrayBuffer())
+      .then(data => {
+        const arraybuffer = data;
+        const workbook = XLSX.read(new Uint8Array(arraybuffer), { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        sheet = workbook.Sheets[sheetName];
+        DataShow(sheet); // DataShow fonksiyonunu çağırırken sheet'i parametre olarak iletiyoruz
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+  
+
+function DataShow(sheet) {
     const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
     const numberOfRows = jsonData.length; //excel satur uzunluğu
 
@@ -39,3 +58,4 @@ function DataShow() {
     }
     MAIN_CONTENT.appendChild(wordsContainer);
 }
+fetchData();

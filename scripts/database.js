@@ -112,72 +112,72 @@
 
 // // localStorage.clear();
 
-// let sheet;
 document.addEventListener('DOMContentLoaded', function () {
+  let sheet;
 
-function DataInit() {
-  // Sabit bir XLSX dosyasının yolu
-  const xlsxFilePath = '../database.xlsx';
+  function fetchData() {
+    const xlsxFilePath = '../database.xlsx';
 
-  // XLSX dosyasını okuma işlemi
-  const oReq = new XMLHttpRequest();
-  oReq.open('GET', xlsxFilePath, true);
-  oReq.responseType = 'arraybuffer';
-
-  oReq.onload = function (e) {
-    const arraybuffer = oReq.response;
-
-    // Veriyi XLSX olarak işleme
-    const data = new Uint8Array(arraybuffer);
-    const workbook = XLSX.read(data, { type: 'array' });
-
-    // İlk sayfadaki (sheet) veriyi alma
-    const sheetName = workbook.SheetNames[0];
-    sheet = workbook.Sheets[sheetName];
-    DataShow();
-  };
-  oReq.send();
-}
-function handleButtonClick(storageKey, message) {
-  const existingData = JSON.parse(localStorage.getItem(storageKey)) || [];
-  const newData = { v1, v2, v3, turkishMeaning };
-
-  const isDuplicate = existingData.some(item =>  // 'some' ile dizideki her ögeyi kontrol ediyor.
-    item.v1 === newData.v1 &&
-    item.v2 === newData.v2 &&
-    item.v3 === newData.v3 &&
-    item.turkishMeaning === newData.turkishMeaning
-  );
-
-  if (!isDuplicate) {
-    alert(message + JSON.stringify(newData.v1) + " kelimesi eklendi.");
-    existingData.push(newData);
-    localStorage.setItem(storageKey, JSON.stringify(existingData));
-    displayUpdate();
-  } else {
-    alert("Bu veri zaten LocalStorage'da mevcut.");
+    fetch(xlsxFilePath)
+      .then(response => response.arrayBuffer())
+      .then(data => {
+        const arraybuffer = data;
+        const workbook = XLSX.read(new Uint8Array(arraybuffer), { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        sheet = workbook.Sheets[sheetName];
+        DataShow(sheet);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
   }
-}
 
-document.addEventListener('click', function (event) {
-  const slide = event.target.closest('.words-content');
-
-  if (slide) {
-    const index = slide.classList[1].replace('slideID', '');
-    const sheetData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-    [v1, v2, v3, turkishMeaning] = sheetData[index]; // Assign values to variables
-
-    if (event.target.id === 'yes') {
-      handleButtonClick('allYesWords', 'Biliyorum: \n');
-    } else if (event.target.id === 'maybe') {
-      handleButtonClick('allMaybeWords', 'Tekrarlamam Lazım: \n');
-    } else if (event.target.id === 'no') {
-      handleButtonClick('allNoWords', 'Hiç Bilmiyorum: \n');
+  function handleButtonClick(storageKey, message) {
+    const newData = { v1, v2, v3, turkishMeaning };
+  
+    try {
+      const existingData = JSON.parse(localStorage.getItem(storageKey)) || [];
+  
+      const isDuplicate = existingData.some(item =>
+        item.v1 === newData.v1 &&
+        item.v2 === newData.v2 &&
+        item.v3 === newData.v3 &&
+        item.turkishMeaning === newData.turkishMeaning
+      );
+  
+      if (isDuplicate) {
+        throw new Error();
+      }
+      alert(message + JSON.stringify(newData.v1) + " kelimesi eklendi.");
+      existingData.push(newData);
+      localStorage.setItem(storageKey, JSON.stringify(existingData));
+    } catch (error) {
+      alert(message + JSON.stringify(newData.v1) + " kelimesi daha öncesinde eklenmiş.");
     }
   }
-});
+  document.addEventListener('click', function (event) {
+    const slide = event.target.closest('.words-content');
+  
+    if (slide) {
+      const index = slide.classList[1].replace('slideID', '');
+      const sheetData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+      [v1, v2, v3, turkishMeaning] = sheetData[index];
+  
+      console.log(event.target.id); // Eklendi
+      console.log(v1, v2, v3, turkishMeaning); // Eklendi
+  
+      if (event.target.id === 'yes') {
+        handleButtonClick('allYesWords', 'Biliyorum: \n');
+      } else if (event.target.id === 'maybe') {
+        handleButtonClick('allMaybeWords', 'Tekrarlamam Lazım: \n');
+      } else if (event.target.id === 'no') {
+        handleButtonClick('allNoWords', 'Hiç Bilmiyorum: \n');
+      }
+    }
+  });
+  
+fetchData();
 
-DataInit();
 });
 
 // localStorage.clear();
