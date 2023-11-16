@@ -27,7 +27,9 @@ body {
 .main {
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: end;
+    align-items: center;
 }
 
 aside {
@@ -65,17 +67,15 @@ aside nav span svg {
 .words-container {
     width: 95%;
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
 .words-content {
-    width: 30%;
-    height: 200px;
     border-radius: 35px;
     margin: 5px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     padding: 15px;
     align-items: center;
 }
@@ -125,11 +125,12 @@ aside nav span svg {
 
 .complete-section {
     width: 95%;
-    margin-left: 15%;
+    display: flex;
+    justify-content: center;
 }
 
 .complete-table {
-    width: 100%;
+    width: 90%;
     text-align: center;
     position: relative;
 }
@@ -224,3 +225,8 @@ aside nav span svg {
     border: none ;
 }
 .remove-list{background-color: red; color: white;}
+.section-title{
+    width: 100%;
+    text-align: center;
+    margin: 20px 0;
+}

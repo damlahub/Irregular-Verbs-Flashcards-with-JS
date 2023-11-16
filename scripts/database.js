@@ -164,9 +164,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const sheetData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
       [v1, v2, v3, turkishMeaning] = sheetData[index];
   
-      console.log(event.target.id); // Eklendi
-      console.log(v1, v2, v3, turkishMeaning); // Eklendi
-  
       if (event.target.id === 'yes') {
         handleButtonClick('allYesWords', 'Biliyorum: \n');
       } else if (event.target.id === 'maybe') {
@@ -180,5 +177,3 @@ document.addEventListener('DOMContentLoaded', function () {
 fetchData();
 
 });
-
-// localStorage.clear();

@@ -1,6 +1,6 @@
 const updateIntervalTime = 1000;
 const updateInterval = () => {
-  const updateWordList= (buttonId, wordArrayKey)=>{  
+  const updateWordList= (buttonId, wordArrayKey,title)=>{  
     const buttonElement = document.querySelector(buttonId);
     let wordArray = JSON.parse(localStorage.getItem(wordArrayKey));
 
@@ -10,7 +10,9 @@ const updateInterval = () => {
       if (!wordArray) {
         wordArray = [];
       }
-
+      const sectionTitle=document.createElement("h1");
+      sectionTitle.classList.add("section-title");
+      sectionTitle.innerHTML= title;
       const completeSection = document.createElement('section');
       completeSection.classList.add('complete-section');
 
@@ -51,6 +53,7 @@ const updateInterval = () => {
         table.appendChild(thead);
         table.appendChild(tbody);
         completeSection.appendChild(table);
+        MAIN_CONTENT.appendChild(sectionTitle);
         MAIN_CONTENT.appendChild(completeSection);
       }
 
@@ -80,9 +83,9 @@ const updateInterval = () => {
     });
   }
 
-  updateWordList('#complete', 'allYesWords');
-  updateWordList('#repeat', 'allMaybeWords');
-  updateWordList('#incomplete', 'allNoWords');
+  updateWordList('#complete', 'allYesWords','Bildiğim Kelimeler');
+  updateWordList('#repeat', 'allMaybeWords','Tekrar Etmem Gereken Kelimeler ');
+  updateWordList('#incomplete', 'allNoWords','Bilmediğim Kelimeler');
 }
 
 
