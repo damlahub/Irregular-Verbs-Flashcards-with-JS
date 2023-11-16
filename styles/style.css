@@ -78,6 +78,7 @@ aside nav span svg {
     margin: 5px;
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
     padding: 15px;
     align-items: center;
 }
