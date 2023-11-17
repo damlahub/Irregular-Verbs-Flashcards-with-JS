@@ -39,16 +39,27 @@ aside {
     background-color: black;
     display: none;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     z-index: 6;
 }
 
-aside nav span svg {
+aside nav  {
+    margin-top: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     cursor: pointer;
-    padding: 10px;
 }
-
+aside nav span {
+    margin-top: 10px;
+}
+#menu-close{
+    color: white;
+    font-weight: bold;
+    margin-top: 10px;
+    cursor: pointer;
+}
 .aside-active {
     display: flex;
 }
@@ -62,6 +73,7 @@ aside nav span svg {
     position: fixed;
     left: -15px;
     text-align: center;
+    font-weight: bold;
 }
 
 .words-container {
@@ -152,7 +164,7 @@ aside nav span svg {
     right: 10px;
     bottom: 10px;
     background-color: rgb(255, 85, 85);
-    border-radius: 100%;
+    border-radius: 35%;
     text-align: center;
 }
 
@@ -161,7 +173,7 @@ aside nav span svg {
     display: flex;
     flex-direction: column;
     position: fixed;
-    right: 0px;
+    right: 5px;
     top: 10px;
     z-index: 9999;
 }

@@ -5,6 +5,12 @@
     if(!asideContent.classList.contains("aside-active")){
         asideBtn.style.left="-15px";
     }else{
-        asideBtn.style.left="55px";
+        asideBtn.style.display="none";
+        let span = document.querySelector("#menu-close");
+
+        span.addEventListener("click",()=>{
+            asideContent.classList.remove("aside-active");
+            asideBtn.style.display="block";
+        });
     }
-})
+});
