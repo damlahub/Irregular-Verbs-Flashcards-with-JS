@@ -4,7 +4,8 @@
         width: 25%;
         height: 200px;
     }
-    .words-container{
+
+    .words-container {
         width: 100%;
         justify-content: center;
     }
@@ -21,11 +22,17 @@
         font-size: 18pt;
     }
 }
+
 @media (min-width: 768px) and (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+    }
+
     #menu-close,
     #menuActive {
         display: none;
     }
+
     aside {
         width: 100%;
         height: 10%;
@@ -33,6 +40,7 @@
         flex-direction: row;
         justify-content: space-evenly;
         align-items: center;
+        position: relative;
     }
 
     aside nav {
@@ -43,19 +51,22 @@
         align-items: center;
         margin-top: 0;
     }
+
     aside nav span {
         margin-left: 5px;
         margin-top: 5px;
     }
+
     .words-content {
         width: 44%;
         height: 200px;
     }
-    .words-container{
+
+    .words-container {
         width: 100%;
-        margin-top: 10%;
         justify-content: center !important;
     }
+
     .complete-point {
         padding: 25px 5px;
         font-size: 18pt;
@@ -66,25 +77,32 @@
         justify-content: start;
         flex-wrap: wrap;
     }
-    .alert-container{
+
+    .alert-container {
         right: 10px !important;
     }
-    .modal-btns{
+
+    .modal-btns {
         width: 20%;
     }
 }
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .container {
+        flex-direction: column;
+    }
     #menu-close,
     #menuActive {
         display: none;
     }
+
     aside {
         width: 100%;
         height: 10%;
         display: flex;
         flex-direction: row;
-        justify-content: space-evenly;
+    position: relative;
+    justify-content: space-evenly;
         align-items: center;
     }
 
@@ -96,19 +114,22 @@
         align-items: center;
         margin-top: 0;
     }
+
     aside nav span {
         margin-left: 5px;
         margin-top: 5px;
     }
+
     .words-content {
         width: 44%;
         height: 200px;
     }
-    .words-container{
+
+    .words-container {
         width: 100%;
-        margin-top: 10%;
         justify-content: center !important;
     }
+
     .complete-point {
         padding: 25px 5px;
         font-size: 18pt;
@@ -119,25 +140,33 @@
         justify-content: start;
         flex-wrap: wrap;
     }
-    .alert-container{
+
+    .alert-container {
         right: 10px !important;
     }
-    .modal-btns{
+
+    .modal-btns {
         width: 20%;
     }
 }
+
 @media (min-width: 481px) and (max-width: 767px) {
+    .container {
+        flex-direction: column;
+    }
     #menu-close,
     #menuActive {
         display: none;
     }
+
     aside {
         width: 100%;
         height: 10%;
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
-        align-items: center;
+    position: relative;
+    align-items: center;
     }
 
     aside nav {
@@ -148,19 +177,22 @@
         align-items: center;
         margin-top: 0;
     }
+
     aside nav span {
         margin-left: 5px;
         margin-top: 5px;
     }
+
     .words-content {
         width: 70%;
         height: 200px;
     }
-    .words-container{
+
+    .words-container {
         width: 100%;
-        margin-top: 10%;
         justify-content: center !important;
     }
+
     .complete-point {
         padding: 25px 5px;
         font-size: 18pt;
@@ -171,18 +203,25 @@
         justify-content: start;
         flex-wrap: wrap;
     }
-    .alert-container{
+
+    .alert-container {
         right: 10px !important;
     }
-    .modal-btns{
+
+    .modal-btns {
         width: 20%;
     }
 }
+
 @media (min-width: 320px) and (max-width: 480px) {
+    .container {
+        flex-direction: column;
+    }
     #menu-close,
     #menuActive {
         display: none;
     }
+
     aside {
         width: 100%;
         height: 10%;
@@ -190,6 +229,7 @@
         flex-direction: row;
         justify-content: space-evenly;
         align-items: center;
+    position: relative;
     }
 
     aside nav {
@@ -200,19 +240,22 @@
         align-items: center;
         margin-top: 0;
     }
+
     aside nav span {
         margin-left: 5px;
         margin-top: 5px;
     }
+
     .words-content {
         width: 70%;
         height: 200px;
     }
-    .words-container{
+
+    .words-container {
         width: 100%;
-        margin-top: 10%;
         justify-content: center !important;
     }
+
     .complete-point {
         padding: 25px 5px;
         font-size: 18pt;
@@ -223,19 +266,25 @@
         justify-content: start;
         flex-wrap: wrap;
     }
-    .alert-container{
+
+    .alert-container {
         right: 10px !important;
     }
-    .modal-btns{
+
+    .modal-btns {
         width: 20%;
     }
 }
-@media (min-width: 0px) and (max-width: 479px) {
 
+@media (min-width: 0px) and (max-width: 479px) {
+    .container {
+        flex-direction: column;
+    }
     #menu-close,
     #menuActive {
         display: none;
     }
+
     aside {
         width: 100%;
         height: 10%;
@@ -243,6 +292,7 @@
         flex-direction: row;
         justify-content: space-evenly;
         align-items: center;
+    position: relative;
     }
 
     aside nav {
@@ -253,20 +303,23 @@
         align-items: center;
         margin-top: 0;
     }
+
     aside nav span {
         margin-left: 5px;
         margin-top: 5px;
     }
+
     .words-content {
         width: 100%;
         height: 200px;
     }
-    .words-container{
+
+    .words-container {
         width: 100%;
-        margin-top: 10%;
         justify-content: center !important;
         align-self: center !important;
     }
+
     .complete-point {
         padding: 25px 5px;
         font-size: 18pt;
@@ -277,12 +330,15 @@
         justify-content: start;
         flex-wrap: wrap;
     }
-    .alert-container{
+
+    .alert-container {
         right: 10px !important;
     }
-    .modal-btns{
+
+    .modal-btns {
         width: 20%;
     }
+
     .complete-table {
         width: 70%;
     }
