@@ -1,109 +1,158 @@
-
-/*
- Ekrana random 5 kelime gelir
- Kartlar doğru eşleşene kadar devam eder. => puan sistemi olacak
- En çok yanlış yapılan kelimeler databasede tutulur. İstedikleri zaman bu kelimeler ile oynayabilirler => bu veriler için başka bir script yaz.
- 
- Oyunun ana sayfasında olacak butonlar;
- BASLA butonundan sonra.
- V1 = v1 ve türkçe anlamları
- v2 = v1 , v2 ve türkçe anlamları anlamları
- v3 = v1, v2 ve türkçe anlamları
- En çok yanlış yapılan kelimeler butonu
-
- süre sistemi olsun localstorage'te tut en son yazdır. her girdiğinde değişecek.
-*/
-let gameBtn=document.querySelector("#gameBtn");
+const gameBtn = document.querySelector("#gameBtn");
 const buttonContainer = document.createElement('div');
 buttonContainer.classList.add('button-container');
 
+let score = 0;
+let timer;
+let timeValue = 15;
+let timeLeft = timeValue;
+
 const clearMain = () => MAIN_CONTENT.innerHTML = '';
-const showIncompleteWords = () => {
-    const incompleteWordsArray = JSON.parse(localStorage.getItem('allNoWords')) || [];
+
+const showIncompleteWords = (compareWith) => {
+  timeLeft = timeValue;
   
-    MAIN_CONTENT.innerHTML = '';
-  
-    if (incompleteWordsArray.length === 0) {
-      MAIN_CONTENT.style.height = '100vh';
-      MAIN_CONTENT.style.justifyContent = 'center';
-      MAIN_CONTENT.style.alignItems = 'center';
-      let counterWarning = document.createElement("h1");
-      counterWarning.style.opacity = ".5";
-      counterWarning.innerHTML = 'Havuzda kelime bulunamadı. Lütfen havuza kelime ekleyin.';
-      MAIN_CONTENT.appendChild(counterWarning);
-    } else {
-      const sectionTitle = document.createElement("h1");
-      sectionTitle.classList.add("section-title");
-      sectionTitle.innerHTML = 'PUAN GELECEK';
-      const completeSection = document.createElement('section');
-      completeSection.classList.add('complete-section');
-  
-      const table = document.createElement('table');
-      table.classList.add('complete-table');
-  
-      const thead = document.createElement('thead');
-      const tbody = document.createElement('tbody');
-  
-      incompleteWordsArray.forEach((word, index) => {
-        const dataRow = document.createElement('tr');
-        dataRow.innerHTML = `
-          <td>${word.v1}</td>
-          <td>${word.v2}</td>
-          <td>${word.v3}</td>
-          <td>${word.turkishMeaning}</td>
-        `;
-   
-        tbody.appendChild(dataRow);
-      });
-  
-      table.appendChild(thead);
-      table.appendChild(tbody);
-      completeSection.appendChild(table);
-      MAIN_CONTENT.appendChild(sectionTitle);
-      MAIN_CONTENT.appendChild(completeSection);
+  const incompleteWordsArray = JSON.parse(localStorage.getItem('allNoWords')) || [];
+  MAIN_CONTENT.innerHTML = '';
+  MAIN_CONTENT.style.height = '100vh';
+  MAIN_CONTENT.style.width = '100%';
+  MAIN_CONTENT.style.justifyContent = 'center';
+  MAIN_CONTENT.style.alignItems = 'center';
+
+  const sectionTitle = document.createElement("h1");
+  sectionTitle.style.color = "rgb(255, 85, 85)";
+  sectionTitle.style.fontSize = "1.5em";
+
+  const restartGame = document.createElement("button");
+  restartGame.innerHTML = "Restart";
+  restartGame.style.backgroundColor = "red";
+  restartGame.style.color = "white";
+  restartGame.style.padding = "20px";
+  restartGame.style.display = "none";
+
+  if (incompleteWordsArray.length === 0) {
+    let counterWarning = document.createElement("h1");
+    counterWarning.style.opacity = ".5";
+    counterWarning.innerHTML = 'Havuzda kelime bulunamadı. Lütfen havuza kelime ekleyin.';
+    MAIN_CONTENT.appendChild(counterWarning);
+  } else {
+    const randomWord = incompleteWordsArray[Math.floor(Math.random() * incompleteWordsArray.length)];
+
+    const wordDisplay = document.createElement('h2');
+    wordDisplay.innerHTML = `${randomWord.v1}`;
+    wordDisplay.classList.add("randomWord");
+    const inputField = document.createElement('input');
+    inputField.classList.add("inputAnswer");
+    inputField.type = 'text';
+    inputField.placeholder = 'userGuess';
+    const submitButton = document.createElement('button');
+    submitButton.classList.add("checkItBtn");
+    submitButton.innerHTML = 'check it';
+    submitButton.type = "button";
+    console.log(randomWord, randomWord.turkishMeaning);
+
+    const startTimer = () => {
+      clearInterval(timer); 
+      timerDisplay.innerHTML = `Time: ${timeLeft}`;
+      timer = setInterval(() => {
+        timeLeft--;
+        timerDisplay.innerHTML = `Time: ${timeLeft}`;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          restartGame.style.display = "block";
+          submitButton.style.display = "none";
+          wordDisplay.style.display = "none";
+          inputField.style.display = "none";
+          timerDisplay.style.visibility = "hidden";
+          restartGame.addEventListener("click", () => {
+            score = 0; 
+            timeLeft = timeValue;
+            submitButton.style.display = "block";
+            restartGame.style.display = "none";
+            wordDisplay.style.display = "block";
+            inputField.style.display = "block";
+            timerDisplay.style.display = "block";
+            showIncompleteWords(compareWith);
+          });
+        }
+      }, 1000);
+    };
+
+    const timerDisplay = document.createElement('h2');
+    timerDisplay.innerHTML = `Time: ${timeLeft} `;
+
+    submitButton.addEventListener('click', () => {
+      const userGuess = inputField.value;
+      let correctAnswer;
+      if (compareWith === "v2") {
+        correctAnswer = randomWord.v2;
+      } else if (compareWith === "v3") {
+        correctAnswer = randomWord.v3;
+      } else {
+        correctAnswer = randomWord.turkishMeaning;
+      }
+
+      if (userGuess.trim().toLowerCase() === correctAnswer.toLowerCase()) {
+        ShowAlert("Aferin!", "Doğru", "bildin", "green");
+        score += 5;
+      } else {
+        ShowAlert("Doğru", "Cevap:", correctAnswer, "red");
+        score -= 5;
+      }
+
+      showIncompleteWords(compareWith);
+    });
+
+    MAIN_CONTENT.appendChild(sectionTitle);
+    MAIN_CONTENT.appendChild(wordDisplay);
+    MAIN_CONTENT.appendChild(inputField);
+    MAIN_CONTENT.appendChild(submitButton);
+    MAIN_CONTENT.appendChild(timerDisplay);
+    MAIN_CONTENT.appendChild(restartGame);
+    if (score <= 0) {
+      score = 0;
     }
+    sectionTitle.innerText = "SCORE: " + score;
+
+    startTimer();
+  }
 };
-const gameButtons=()=>{
-  const gameTitle=document.createElement("h1");
-  gameTitle.textContent="IrregularVerbs";
+
+const gameButtons = () => {
+  const gameTitle = document.createElement("h1");
+  gameTitle.textContent = "IrregularVerbs";
   buttonContainer.appendChild(gameTitle);
 
-  const startButton = document.createElement('button');
-  startButton.textContent = 'Başla';
+  const buttonV2 = document.createElement('button');
+  buttonV2.innerHTML = "past simple";
+  buttonV2.addEventListener('click', () => {
+    clearMain();
+    showIncompleteWords('v2');
+  });
 
-  startButton.addEventListener('click', levelDesign);
-  // startButton.addEventListener('click', startGame);
+  const buttonV3 = document.createElement('button');
+  buttonV3.innerHTML = "past participle";
+  buttonV3.addEventListener('click', () => {
+    clearMain();
+    showIncompleteWords('v3');
+  });
 
-  buttonContainer.appendChild(startButton);
+  const buttonTurkish = document.createElement('button');
+  buttonTurkish.innerHTML = "infinitive";
+  buttonTurkish.addEventListener('click', () => {
+    clearMain();
+    showIncompleteWords('turkish');
+  });
+  buttonContainer.appendChild(buttonTurkish);
+  buttonContainer.appendChild(buttonV2);
+  buttonContainer.appendChild(buttonV3);
   MAIN_CONTENT.appendChild(buttonContainer);
 }
-const levelDesign=()=>{
-  buttonContainer
-  const v1Btn=document.createElement('button');
-  v1Btn.textContent="V1";
-  v1Btn.id="v1BTN";
 
-  const v2Btn=document.createElement('button');
-  v2Btn.textContent="V2";
-  v1Btn.id="v2BTN";
-
-  const v3Btn=document.createElement('button');
-  v3Btn.textContent="V3";
-  v1Btn.id="v3BTN";
-
-  buttonContainer.appendChild(v1Btn);
-  buttonContainer.appendChild(v2Btn);
-  buttonContainer.appendChild(v3Btn);
-
-  MAIN_CONTENT.appendChild(buttonContainer);
-
-}
-const startGame=()=>{
-  showIncompleteWords();
-}
 const game = () => {
-    clearMain();      
-    gameButtons();
+  buttonContainer.innerHTML="";
+  clearMain();
+  gameButtons();
 }
 
-gameBtn.addEventListener("click",game);
+gameBtn.addEventListener("click", game);
