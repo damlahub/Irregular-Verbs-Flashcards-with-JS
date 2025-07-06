@@ -9,9 +9,12 @@ let timeLeft = timeValue;
 
 const clearMain = () => MAIN_CONTENT.innerHTML = '';
 
-const showIncompleteWords = (compareWith) => {
-  timeLeft = timeValue;
-  
+const showIncompleteWords = (compareWith, resetTimer = true) => {
+  //timeLeft = timeValue;
+  if (resetTimer) {
+    timeLeft = timeValue;
+  }
+
   const incompleteWordsArray = JSON.parse(localStorage.getItem('allNoWords')) || [];
   MAIN_CONTENT.innerHTML = '';
   MAIN_CONTENT.style.height = '100vh';
@@ -52,7 +55,7 @@ const showIncompleteWords = (compareWith) => {
     console.log(randomWord, randomWord.turkishMeaning);
 
     const startTimer = () => {
-      clearInterval(timer); 
+      clearInterval(timer);
       timerDisplay.innerHTML = `Time: ${timeLeft}`;
       timer = setInterval(() => {
         timeLeft--;
@@ -65,7 +68,7 @@ const showIncompleteWords = (compareWith) => {
           inputField.style.display = "none";
           timerDisplay.style.visibility = "hidden";
           restartGame.addEventListener("click", () => {
-            score = 0; 
+            score = 0;
             timeLeft = timeValue;
             submitButton.style.display = "block";
             restartGame.style.display = "none";
@@ -95,12 +98,14 @@ const showIncompleteWords = (compareWith) => {
       if (userGuess.trim().toLowerCase() === correctAnswer.toLowerCase()) {
         ShowAlert("Aferin!", "Doğru", "bildin", "green");
         score += 5;
+        showIncompleteWords(compareWith, true);
       } else {
         ShowAlert("Doğru", "Cevap:", correctAnswer, "red");
         score -= 5;
+        showIncompleteWords(compareWith, false);
       }
 
-      showIncompleteWords(compareWith);
+      // showIncompleteWords(compareWith);
     });
 
     MAIN_CONTENT.appendChild(sectionTitle);
@@ -150,7 +155,7 @@ const gameButtons = () => {
 }
 
 const game = () => {
-  buttonContainer.innerHTML="";
+  buttonContainer.innerHTML = "";
   clearMain();
   gameButtons();
 }
